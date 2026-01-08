@@ -1,24 +1,18 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+$host = getenv('MYSQLHOST');
+$user = getenv('MYSQLUSER');
+$pass = getenv('MYSQLPASSWORD');
+$name = getenv('MYSQLDATABASE');
+$port = getenv('MYSQLPORT') ?: 3306;
 
-// Ambil ENV dari Railway
-$host = getenv('mysql.railway.internal');
-$user = getenv('root');
-$pass = getenv('dZLGtARjoiHrvpRquezetOaogSeFDvKq');
-$name = getenv('railway');
-$port = getenv('3306') ?: 3306;
-
-// Validasi ENV
 if (!$host || !$user || !$name) {
     die("Environment database belum lengkap");
 }
 
 $conn = new mysqli($host, $user, $pass, $name, $port);
 
-// Cek koneksi
 if ($conn->connect_error) {
     die("DB Connection Failed: " . $conn->connect_error);
 }
-?>
+
+echo "DB CONNECTED";
