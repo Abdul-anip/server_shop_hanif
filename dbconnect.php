@@ -2,9 +2,9 @@
     header("Access-Control-Allow-Origin: *");
     
     // Railway otomatis menyediakan variabel ini
-    $host = getenv('MYSQLHOST') ? getenv('MYSQLHOST') : 'localhost';
+    $host = getenv('MYSQLHOST') ? getenv('MYSQLHOST') : 'mysql.railway.internal';
     $user = getenv('MYSQLUSER') ? getenv('MYSQLUSER') : 'root';
-    $pass = getenv('MYSQLPASSWORD') ? getenv('MYSQLPASSWORD') : '';
+    $pass = getenv('MYSQLPASSWORD') ? getenv('MYSQLPASSWORD') : 'dZLGtARjoiHrvpRquezetOaogSeFDvKq';
     $name = getenv('MYSQLDATABASE') ? getenv('MYSQLDATABASE') : 'railway';
     $port = getenv('MYSQLPORT') ? getenv('MYSQLPORT') : 3306;
     
