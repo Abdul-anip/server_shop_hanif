@@ -1,18 +1,28 @@
 <?php
 include_once 'dbconnect.php';
-$search = $_GET['search'];
-$sql = "SELECT * FROM product_items WHERE name LIKE '%$search%' || category LIKE '%$search%' || vendors LIKE '%$search%'";
-$exec = mysqli_query($conn, $sql);
-$exec = $conn -> query($sql);
+
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+
+if (!isset($_GET['search']) || empty(trim($_GET['search']))) {
+    echo json_encode([]);
+    exit;
+}
+
+$search = trim($_GET['search']);
+$searchParam = "%$search%";
+
+$stmt = $conn->prepare("SELECT * FROM product_items WHERE name LIKE ? OR category LIKE ? OR vendors LIKE ?");
+$stmt->bind_param("sss", $searchParam, $searchParam, $searchParam);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $itemproduct = array();
-
-if($exec -> num_rows > 0){
-    while($row = $exec -> fetch_assoc()){
-        $itemproduct[]= row;
-
-    }
+while($row = $result->fetch_assoc()){
+    $itemproduct[] = $row;
 }
+
 echo json_encode($itemproduct);
-$conn -> close();
+$stmt->close();
+$conn->close();
 ?>

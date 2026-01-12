@@ -1,23 +1,19 @@
 <?php
-    include_once 'dbconnect.php';
-    $stat = $conn -> prepare ("SELECT id, name, price, promo, description, images, stock, vendors, category FROM product_items;");
-    $stat -> execute();
-    $stat -> bind_result($id, $name, $price, $promo, $description, $image, $stock, $vendors, $category);
-    $arrayproduct = array();
+include_once 'dbconnect.php';
 
-    while ($stat -> fetch()){
-        $data = array();
-        $data['id'] = $id;
-        $data['name'] = $name;
-        $data['price'] = $price;
-        $data['promo'] = $promo;
-        $data['description'] = $description;
-        $data['images'] = $image;
-        $data['stock'] = $stock;
-        $data['vendors'] = $vendors;
-        $data['category'] = $category;
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
 
-        array_push($arrayproduct, $data);
-    }
-    echo json_encode($arrayproduct);
+$stat = $conn->prepare("SELECT id, name, price, promo, description, images, stock, vendors, category FROM product_items");
+$stat->execute();
+$result = $stat->get_result();
+
+$arrayproduct = array();
+while ($row = $result->fetch_assoc()) {
+    $arrayproduct[] = $row;
+}
+
+echo json_encode($arrayproduct);
+$stat->close();
+$conn->close();
 ?>
