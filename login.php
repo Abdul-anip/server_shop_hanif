@@ -60,13 +60,23 @@ $updateStmt->bind_param("i", $user['id']);
 $updateStmt->execute();
 $updateStmt->close();
 
+// Generate Token
+include_once 'SimpleJWT.php';
+$payload = [
+    'user_id' => $user['id'],
+    'email' => $user['email'],
+    'exp' => time() + (7 * 24 * 60 * 60) // Token valid 7 hari
+];
+$token = SimpleJWT::encode($payload);
+
 echo json_encode([
     'status' => 'success',
     'message' => 'Login successful',
     'data' => [
         'user_id' => $user['id'],
         'name' => $user['name'],
-        'email' => $user['email']
+        'email' => $user['email'],
+        'token' => $token
     ]
 ]);
 
