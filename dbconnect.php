@@ -1,11 +1,14 @@
 <?php
+include_once 'env_loader.php';
+loadEnv(__DIR__ . '/.env');
+
 // Development (localhost)
 if (!getenv('RAILWAY_ENVIRONMENT')) {
-    define('DB_HOST', 'localhost');
-    define('DB_USER', 'root');
-    define('DB_NAME', 'product_items');
-    define('DB_PASS', '');
-    define('DB_PORT', 3306);
+    define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
+    define('DB_USER', getenv('DB_USER') ?: 'root');
+    define('DB_NAME', getenv('DB_NAME') ?: 'product_items');
+    define('DB_PASS', getenv('DB_PASS') ?: '');
+    define('DB_PORT', getenv('DB_PORT') ?: 3306);
 } else {
     // Production (Railway) - Ambil dari Environment Variables
     define('DB_HOST', getenv('MYSQLHOST') ?: 'mysql.railway.internal');

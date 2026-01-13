@@ -1,2 +1,38 @@
+# Environment files
 .env
-/vendor
+.env.local
+.env.*.local
+
+# Database
+*.sql
+*.sqlite
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+vendor/
+composer.lock
+
+# Logs
+*.log
+error_log
+debug.log
+
+# Sensitive data
+config/secrets.php
+credentials.json
+*.pem
+*.key
+
+# Backup files
+*.backup
+*.bak
+*~

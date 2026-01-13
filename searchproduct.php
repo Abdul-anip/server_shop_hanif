@@ -9,11 +9,11 @@ if (!isset($_GET['search']) || empty(trim($_GET['search']))) {
     exit;
 }
 
-$search = trim($_GET['search']);
-$searchParam = "%$search%";
-
-$stmt = $conn->prepare("SELECT * FROM product_items WHERE name LIKE ? OR category LIKE ? OR vendors LIKE ?");
-$stmt->bind_param("sss", $searchParam, $searchParam, $searchParam);
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+$search = $conn->real_escape_string($search);
+$stmt = $conn->prepare("SELECT * FROM product_items WHERE name LIKE ? OR category LIKE ?");
+$searchTerm = "%$search%";
+$stmt->bind_param("ss", $searchTerm, $searchTerm);
 $stmt->execute();
 $result = $stmt->get_result();
 
